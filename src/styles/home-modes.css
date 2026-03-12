@@ -1,0 +1,24 @@
+.solo-duel {
+  border-color: rgba(96, 165, 250, 0.35);
+  background: linear-gradient(145deg, rgba(30, 58, 138, 0.32), rgba(12, 19, 39, 0.82));
+}
+
+.random-duel {
+  border-color: rgba(244, 114, 182, 0.35);
+  background: linear-gradient(145deg, rgba(131, 24, 67, 0.32), rgba(12, 19, 39, 0.82));
+}
+
+.room-duel {
+  border-color: rgba(34, 197, 94, 0.35);
+  background: linear-gradient(145deg, rgba(20, 83, 45, 0.32), rgba(12, 19, 39, 0.82));
+}
+
+.friend-duel {
+  border-color: rgba(251, 146, 60, 0.35);
+  background: linear-gradient(145deg, rgba(124, 45, 18, 0.32), rgba(12, 19, 39, 0.82));
+}
+
+.institute-duel {
+  border-color: rgba(45, 212, 191, 0.35);
+  background: linear-gradient(145deg, rgba(17, 94, 89, 0.32), rgba(12, 19, 39, 0.82));
+}
