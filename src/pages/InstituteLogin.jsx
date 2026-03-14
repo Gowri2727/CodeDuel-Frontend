@@ -37,7 +37,7 @@ export default function InstituteLogin() {
       navigate("/institute-dashboard");
     } catch (err) {
       if (!err?.response) {
-        setError("Backend is not reachable at http://localhost:5000. Start the backend server and try again.");
+        setError("Backend is not reachable at https://codeduel-backend-25xt.onrender.com. Start the backend server and try again.");
       } else {
         setError(err.response?.data?.message || "Invalid admin credentials");
       }

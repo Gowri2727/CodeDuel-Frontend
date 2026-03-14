@@ -98,10 +98,10 @@ function Login() {
         <div className="auth-divider">or continue with</div>
 
         <div className="auth-social-grid">
-          <button className="auth-secondary" onClick={() => { window.location.href = "http://localhost:5000/api/auth/google"; }}>
+          <button className="auth-secondary" onClick={() => { window.location.href = "https://codeduel-backend-25xt.onrender.com/api/auth/google"; }}>
             Google
           </button>
-          <button className="auth-secondary" onClick={() => { window.location.href = "http://localhost:5000/api/auth/github"; }}>
+          <button className="auth-secondary" onClick={() => { window.location.href = "https://codeduel-backend-25xt.onrender.com/api/auth/github"; }}>
             GitHub
           </button>
         </div>
