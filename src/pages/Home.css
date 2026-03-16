@@ -26,6 +26,17 @@
   gap: 12px;
 }
 
+.home-page,
+.home-page * {
+  scrollbar-width: none;
+}
+
+.home-page::-webkit-scrollbar,
+.home-page *::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
 .home-page button {
   width: auto;
   margin: 0;
@@ -77,33 +88,13 @@
 }
 
 .brand-icon {
-  width: 22px;
-  height: 22px;
-  position: relative;
-  display: inline-block;
-  filter: drop-shadow(0 0 10px rgba(52, 211, 153, 0.22));
-}
-
-.brand-icon::before,
-.brand-icon::after {
-  content: "";
-  position: absolute;
-  top: 1px;
-  left: 9px;
-  width: 4px;
-  height: 18px;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #f8fafc 0%, #a7f3d0 45%, #22c55e 100%);
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06);
-  transform-origin: center;
-}
-
-.brand-icon::before {
-  transform: rotate(36deg);
-}
-
-.brand-icon::after {
-  transform: rotate(-36deg);
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #dcfce7;
+  filter: drop-shadow(0 0 10px rgba(52, 211, 153, 0.24));
 }
 
 .nav-links {
@@ -400,9 +391,12 @@
   padding: 16px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 10px;
   min-height: 148px;
   animation: fadeUp 0.6s ease both;
+  text-align: center;
 }
 
 .mode-card:nth-child(2) {

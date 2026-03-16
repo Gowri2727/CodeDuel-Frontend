@@ -21,6 +21,7 @@ import socket from "../services/socket";
 import "./Home.css";
 import "../styles/home-modes.css";
 import Footer from "../components/Footer";
+import CrossedSwordsIcon from "../components/CrossedSwordsIcon";
 import {
   buildRoomAutoJoinPath,
   clearPendingRoomAutoJoin,
@@ -145,7 +146,14 @@ function Home() {
     <div className="home-page">
       <nav className="home-nav">
         <div className="brand">
-          <span className="brand-icon" aria-hidden="true" />
+          <span className="brand-icon" aria-hidden="true">
+            <CrossedSwordsIcon
+              size={24}
+              color="#dffef1"
+              strokeWidth={1.2}
+              shadow={1}
+            />
+          </span>
           Code Duel
         </div>
 
