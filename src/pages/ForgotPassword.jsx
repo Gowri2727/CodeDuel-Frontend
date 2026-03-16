@@ -27,7 +27,7 @@ function ForgotPassword() {
         newPassword
       });
       setSuccess(res.data?.message || "Password updated successfully.");
-      setTimeout(() => navigate("/"), 900);
+      setTimeout(() => navigate("/login"), 900);
     } catch (err) {
       setError(err.response?.data?.message || "Failed to reset password.");
     } finally {

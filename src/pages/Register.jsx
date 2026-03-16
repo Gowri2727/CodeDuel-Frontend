@@ -86,7 +86,7 @@ function Register() {
         collegeCode: form.collegeCode || "",
         languages: languageCheck.languages
       });
-      navigate("/");
+      navigate("/login");
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed");
     } finally {
@@ -196,7 +196,7 @@ function Register() {
 
         <div className="auth-row-links">
           <p>
-            Already have an account? <Link to="/">Login</Link>
+            Already have an account? <Link to="/login">Login</Link>
           </p>
         </div>
       </div>

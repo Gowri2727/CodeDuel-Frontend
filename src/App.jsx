@@ -111,20 +111,14 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* PUBLIC ROUTES */}
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/oauth-success" element={<OAuthSuccess />} />
 
         {/* USER ROUTES */}
-        <Route
-          path="/home"
-          element={
-            <ProtectedRoute role="user">
-              <Home />
-            </ProtectedRoute>
-          }
-        />
         <Route
           path="/profile"
           element={

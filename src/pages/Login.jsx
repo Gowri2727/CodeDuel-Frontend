@@ -1,17 +1,30 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import API from "../services/api";
 import socket from "../services/socket";
 import "../styles/auth.css";
 
 function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [form, setForm] = useState({
     email: "",
     password: ""
   });
+  const redirectTo = location.state?.from || "/home";
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
+    if (!token) return;
+    if (role === "institute_admin") {
+      navigate("/institute-dashboard", { replace: true });
+      return;
+    }
+    navigate(redirectTo, { replace: true });
+  }, [navigate, redirectTo]);
 
   const submit = async () => {
     if (!form.email.trim() || !form.password.trim()) {
@@ -36,7 +49,7 @@ function Login() {
       if (res.data.role === "institute_admin") {
         navigate("/institute-dashboard");
       } else {
-        navigate("/home");
+        navigate(redirectTo, { replace: true });
       }
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");

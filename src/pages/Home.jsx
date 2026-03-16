@@ -20,6 +20,7 @@ import API from "../services/api";
 import socket from "../services/socket";
 import "./Home.css";
 import "../styles/home-modes.css";
+import Footer from "../components/Footer";
 import {
   buildRoomAutoJoinPath,
   clearPendingRoomAutoJoin,
@@ -36,7 +37,16 @@ function Home() {
   const [messageAlerts, setMessageAlerts] = useState([]);
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
+  const isLoggedIn = Boolean(token && userId);
   const headers = { headers: { Authorization: `Bearer ${token}` } };
+
+  const openProtectedRoute = path => {
+    if (!isLoggedIn) {
+      navigate("/login", { state: { from: path } });
+      return;
+    }
+    navigate(path);
+  };
 
   const loadContestAlerts = async () => {
     if (!token) return;
@@ -129,101 +139,114 @@ function Home() {
         </div>
 
         <div className="nav-links">
-          <button className="nav-link" onClick={() => navigate("/solo")}>
+          <button className="nav-link" onClick={() => openProtectedRoute("/solo")}>
             Solo
           </button>
-          <button className="nav-link" onClick={() => navigate("/random")}>
+          <button className="nav-link" onClick={() => openProtectedRoute("/random")}>
             Random
           </button>
-          <button className="nav-link" onClick={() => navigate("/room")}>
+          <button className="nav-link" onClick={() => openProtectedRoute("/room")}>
             Room
           </button>
-          <button className="nav-link" onClick={() => navigate("/friends")}>
+          <button className="nav-link" onClick={() => openProtectedRoute("/friends")}>
             Friends
           </button>
           <button
             className="nav-link"
-            onClick={() => navigate("/institution")}
+            onClick={() => openProtectedRoute("/institution")}
           >
             Institution
           </button>
-          <button className="nav-link" onClick={() => navigate("/region")}>
+          <button className="nav-link" onClick={() => openProtectedRoute("/region")}>
             Region
           </button>
         </div>
 
         <div className="nav-actions">
-          <div className="home-notif-wrap">
-            <button
-              className="profile-icon home-notif-btn"
-              onClick={() => setNotifOpen(prev => !prev)}
-              aria-label="Institution notifications"
-              title="Institution notifications"
-            >
-              <span className="home-bell" aria-hidden="true" />
-              {totalNotifCount > 0 && <span className="home-notif-count">{totalNotifCount}</span>}
-            </button>
-            {notifOpen && (
-              <div className="home-notif-panel">
-                <p className="home-notif-title">Messages</p>
-                {!messageAlerts.length && <p className="home-notif-muted">No new messages.</p>}
-                {messageAlerts.map(item => (
-                  <div key={item._id} className="home-notif-item">
-                    <p className="home-notif-name">{item.senderName} messaged you</p>
-                    <p className="home-notif-meta">{new Date(item.createdAt).toLocaleString()}</p>
-                    <div className="home-notif-actions">
-                      <button
-                        className="primary"
-                        onClick={() => {
-                          setNotifOpen(false);
-                          setMessageAlerts([]);
-                          navigate("/friends");
-                        }}
-                      >
-                        Open Friends
-                      </button>
-                    </div>
+          {isLoggedIn ? (
+            <>
+              <div className="home-notif-wrap">
+                <button
+                  className="profile-icon home-notif-btn"
+                  onClick={() => setNotifOpen(prev => !prev)}
+                  aria-label="Institution notifications"
+                  title="Institution notifications"
+                >
+                  <span className="home-bell" aria-hidden="true" />
+                  {totalNotifCount > 0 && <span className="home-notif-count">{totalNotifCount}</span>}
+                </button>
+                {notifOpen && (
+                  <div className="home-notif-panel">
+                    <p className="home-notif-title">Messages</p>
+                    {!messageAlerts.length && <p className="home-notif-muted">No new messages.</p>}
+                    {messageAlerts.map(item => (
+                      <div key={item._id} className="home-notif-item">
+                        <p className="home-notif-name">{item.senderName} messaged you</p>
+                        <p className="home-notif-meta">{new Date(item.createdAt).toLocaleString()}</p>
+                        <div className="home-notif-actions">
+                          <button
+                            className="primary"
+                            onClick={() => {
+                              setNotifOpen(false);
+                              setMessageAlerts([]);
+                              navigate("/friends");
+                            }}
+                          >
+                            Open Friends
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                    <div className="section-divider" />
+                    <p className="home-notif-title">Institution Contests</p>
+                    {notifLoading && <p className="home-notif-muted">Loading...</p>}
+                    {!notifLoading && !contestAlerts.length && (
+                      <p className="home-notif-muted">No new contest alerts.</p>
+                    )}
+                    {!notifLoading && contestAlerts.map(item => (
+                      <div key={item._id} className="home-notif-item">
+                        <p className="home-notif-name">{item.title}</p>
+                        <p className="home-notif-meta">{item.status} | {item.difficulty} | {item.type}</p>
+                        <div className="home-notif-actions">
+                          {item.canEnroll && (
+                            <button
+                              className="ghost"
+                              onClick={() => enrollAndOpen(item._id)}
+                              disabled={notifActionId === String(item._id)}
+                            >
+                              {notifActionId === String(item._id) ? "Enrolling..." : "Enroll"}
+                            </button>
+                          )}
+                          {String(item.myEnrollmentStatus || "") === "registered" && (
+                            <button className="primary" onClick={() => navigate(`/institution/duel/${item._id}`)}>
+                              Open
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                ))}
-                <div className="section-divider" />
-                <p className="home-notif-title">Institution Contests</p>
-                {notifLoading && <p className="home-notif-muted">Loading...</p>}
-                {!notifLoading && !contestAlerts.length && (
-                  <p className="home-notif-muted">No new contest alerts.</p>
                 )}
-                {!notifLoading && contestAlerts.map(item => (
-                  <div key={item._id} className="home-notif-item">
-                    <p className="home-notif-name">{item.title}</p>
-                    <p className="home-notif-meta">{item.status} | {item.difficulty} | {item.type}</p>
-                    <div className="home-notif-actions">
-                      {item.canEnroll && (
-                        <button
-                          className="ghost"
-                          onClick={() => enrollAndOpen(item._id)}
-                          disabled={notifActionId === String(item._id)}
-                        >
-                          {notifActionId === String(item._id) ? "Enrolling..." : "Enroll"}
-                        </button>
-                      )}
-                      {String(item.myEnrollmentStatus || "") === "registered" && (
-                        <button className="primary" onClick={() => navigate(`/institution/duel/${item._id}`)}>
-                          Open
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                ))}
               </div>
-            )}
-          </div>
-          <button
-            className="profile-icon"
-            onClick={() => navigate("/profile")}
-            aria-label="Open profile"
-            title="Profile"
-          >
-            <span className="profile-glyph" aria-hidden="true" />
-          </button>
+              <button
+                className="profile-icon"
+                onClick={() => navigate("/profile")}
+                aria-label="Open profile"
+                title="Profile"
+              >
+                <span className="profile-glyph" aria-hidden="true" />
+              </button>
+            </>
+          ) : (
+            <div className="home-auth-actions">
+              <button className="ghost home-auth-btn" onClick={() => navigate("/login")}>
+                Login
+              </button>
+              <button className="primary home-auth-btn" onClick={() => navigate("/login")}>
+                Signup
+              </button>
+            </div>
+          )}
         </div>
       </nav>
 
@@ -237,10 +260,10 @@ function Home() {
             Sharpen your skills with focused practice and fast-paced duels.
           </p>
           <div className="hero-actions">
-            <button className="primary" onClick={() => navigate("/solo")}>
+            <button className="primary" onClick={() => openProtectedRoute("/solo")}>
               Start Solo
             </button>
-            <button className="secondary" onClick={() => navigate("/random")}>
+            <button className="secondary" onClick={() => openProtectedRoute("/random")}>
               Find Random Duel
             </button>
           </div>
@@ -262,7 +285,7 @@ function Home() {
               <span className="label">Duel</span>
             </div>
           </div>
-          <button className="primary" onClick={() => navigate("/room")}>
+          <button className="primary" onClick={() => openProtectedRoute("/room")}>
             Create Room
           </button>
         </div>
@@ -272,39 +295,41 @@ function Home() {
         <div className="mode-card solo-duel">
           <h3>Solo Mode</h3>
           <p>Focused practice with curated problems.</p>
-          <button className="ghost" onClick={() => navigate("/solo")}>
+          <button className="ghost" onClick={() => openProtectedRoute("/solo")}>
             Enter Solo
           </button>
         </div>
         <div className="mode-card random-duel">
           <h3>Random Duel</h3>
           <p>Instant matchmaking for quick battles.</p>
-          <button className="ghost" onClick={() => navigate("/random")}>
+          <button className="ghost" onClick={() => openProtectedRoute("/random")}>
             Start Duel
           </button>
         </div>
         <div className="mode-card room-duel">
           <h3>Room Duel</h3>
           <p>Create or join a private room with code.</p>
-          <button className="ghost" onClick={() => navigate("/room")}>
+          <button className="ghost" onClick={() => openProtectedRoute("/room")}>
             Join Room
           </button>
         </div>
         <div className="mode-card friend-duel">
           <h3>Friends</h3>
           <p>Challenge friends and track progress.</p>
-          <button className="ghost" onClick={() => navigate("/friends")}>
+          <button className="ghost" onClick={() => openProtectedRoute("/friends")}>
             Open Friends
           </button>
         </div>
         <div className="mode-card institute-duel">
           <h3>Institution</h3>
           <p>Compete with classmates in shared arenas.</p>
-          <button className="ghost" onClick={() => navigate("/institution")}>
+          <button className="ghost" onClick={() => openProtectedRoute("/institution")}>
             View Institutions
           </button>
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 }
