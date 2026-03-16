@@ -67,6 +67,17 @@ function Home() {
   };
 
   useEffect(() => {
+    const previousBodyOverflow = document.body.style.overflow;
+    const previousHtmlOverflow = document.documentElement.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousBodyOverflow;
+      document.documentElement.style.overflow = previousHtmlOverflow;
+    };
+  }, []);
+
+  useEffect(() => {
     const pending = getPendingRoomAutoJoin();
     if (!pending?.roomCode) return;
     clearPendingRoomAutoJoin();
@@ -134,7 +145,7 @@ function Home() {
     <div className="home-page">
       <nav className="home-nav">
         <div className="brand">
-          <span className="brand-mark" />
+          <span className="brand-icon" aria-hidden="true" />
           Code Duel
         </div>
 
@@ -242,7 +253,7 @@ function Home() {
               <button className="ghost home-auth-btn" onClick={() => navigate("/login")}>
                 Login
               </button>
-              <button className="primary home-auth-btn" onClick={() => navigate("/login")}>
+              <button className="primary home-auth-btn" onClick={() => navigate("/register")}>
                 Signup
               </button>
             </div>
