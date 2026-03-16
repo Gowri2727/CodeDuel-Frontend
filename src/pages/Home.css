@@ -1,5 +1,23 @@
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap");
 
+html.home-scroll-ui,
+body.home-scroll-ui {
+  scrollbar-width: none;
+}
+
+html.home-scroll-ui *,
+body.home-scroll-ui * {
+  scrollbar-width: none;
+}
+
+html.home-scroll-ui::-webkit-scrollbar,
+body.home-scroll-ui::-webkit-scrollbar,
+html.home-scroll-ui *::-webkit-scrollbar,
+body.home-scroll-ui *::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
 html.home-scroll-lock,
 body.home-scroll-lock {
   overflow: hidden;

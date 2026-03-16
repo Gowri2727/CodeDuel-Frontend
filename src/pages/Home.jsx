@@ -75,6 +75,9 @@ function Home() {
       window.matchMedia("(max-height: 860px)")
     ];
 
+    document.body.classList.add("home-scroll-ui");
+    document.documentElement.classList.add("home-scroll-ui");
+
     const syncScrollMode = () => {
       const shouldAllowScroll = mediaQueries.some(query => query.matches);
       if (shouldAllowScroll) {
@@ -98,6 +101,8 @@ function Home() {
       mediaQueries.forEach(query => query.removeEventListener("change", syncScrollMode));
       document.body.style.overflow = previousBodyOverflow;
       document.documentElement.style.overflow = previousHtmlOverflow;
+      document.body.classList.remove("home-scroll-ui");
+      document.documentElement.classList.remove("home-scroll-ui");
       document.body.classList.remove("home-scroll-lock");
       document.documentElement.classList.remove("home-scroll-lock");
     };
