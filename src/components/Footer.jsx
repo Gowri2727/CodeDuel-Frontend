@@ -22,9 +22,6 @@ export default function Footer() {
       <div className="home-footer-copy">
         <p className="home-footer-kicker">Built for focused duels and sharp practice.</p>
         <h3>Stay connected outside the arena.</h3>
-        <p className="home-footer-text">
-          Reach out for collaboration, feedback, or product ideas. The footer stays lightweight and responsive so it fits the existing home page flow.
-        </p>
         <div className="home-footer-links">
           <a
             className="home-footer-link home-footer-link-icon"

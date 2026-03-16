@@ -257,7 +257,7 @@ function Home() {
           <p className="eyebrow">Practice - Compete - Improve</p>
           <h1>Welcome to Code Duel</h1>
           <p className="subtext">
-            Sharpen your skills with focused practice and fast-paced duels.
+            Understand different coding approaches, learn from mistakes, and become a better programmer.
           </p>
           <div className="hero-actions">
             <button className="primary" onClick={() => openProtectedRoute("/solo")}>
