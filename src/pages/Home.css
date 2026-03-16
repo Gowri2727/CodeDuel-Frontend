@@ -6,8 +6,15 @@ body.home-scroll-lock {
   scrollbar-width: none;
 }
 
+html.home-scroll-lock *,
+body.home-scroll-lock * {
+  scrollbar-width: none;
+}
+
 html.home-scroll-lock::-webkit-scrollbar,
-body.home-scroll-lock::-webkit-scrollbar {
+body.home-scroll-lock::-webkit-scrollbar,
+html.home-scroll-lock *::-webkit-scrollbar,
+body.home-scroll-lock *::-webkit-scrollbar {
   width: 0;
   height: 0;
 }
