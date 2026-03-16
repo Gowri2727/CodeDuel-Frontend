@@ -462,6 +462,10 @@ body.home-scroll-lock *::-webkit-scrollbar {
 
 @media (max-width: 720px) {
   .home-page {
+    height: auto;
+    min-height: 100dvh;
+    overflow-y: auto;
+    overflow-x: hidden;
     padding: 14px 14px 18px;
   }
 
@@ -496,6 +500,10 @@ body.home-scroll-lock *::-webkit-scrollbar {
 
 @media (max-width: 560px) {
   .home-page {
+    height: auto;
+    min-height: 100dvh;
+    overflow-y: auto;
+    overflow-x: hidden;
     padding-inline: 12px;
   }
 
@@ -526,6 +534,10 @@ body.home-scroll-lock *::-webkit-scrollbar {
 
 @media (max-height: 860px) {
   .home-page {
+    height: auto;
+    min-height: 100dvh;
+    overflow-y: auto;
+    overflow-x: hidden;
     padding-top: 12px;
     padding-bottom: 14px;
     gap: 10px;

@@ -70,11 +70,32 @@ function Home() {
   useEffect(() => {
     const previousBodyOverflow = document.body.style.overflow;
     const previousHtmlOverflow = document.documentElement.style.overflow;
-    document.body.style.overflow = "hidden";
-    document.documentElement.style.overflow = "hidden";
-    document.body.classList.add("home-scroll-lock");
-    document.documentElement.classList.add("home-scroll-lock");
+    const mediaQueries = [
+      window.matchMedia("(max-width: 840px)"),
+      window.matchMedia("(max-height: 860px)")
+    ];
+
+    const syncScrollMode = () => {
+      const shouldAllowScroll = mediaQueries.some(query => query.matches);
+      if (shouldAllowScroll) {
+        document.body.style.overflow = previousBodyOverflow;
+        document.documentElement.style.overflow = previousHtmlOverflow;
+        document.body.classList.remove("home-scroll-lock");
+        document.documentElement.classList.remove("home-scroll-lock");
+        return;
+      }
+
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+      document.body.classList.add("home-scroll-lock");
+      document.documentElement.classList.add("home-scroll-lock");
+    };
+
+    syncScrollMode();
+    mediaQueries.forEach(query => query.addEventListener("change", syncScrollMode));
+
     return () => {
+      mediaQueries.forEach(query => query.removeEventListener("change", syncScrollMode));
       document.body.style.overflow = previousBodyOverflow;
       document.documentElement.style.overflow = previousHtmlOverflow;
       document.body.classList.remove("home-scroll-lock");
