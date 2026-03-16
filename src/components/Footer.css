@@ -70,7 +70,7 @@
 }
 
 .home-footer-image-frame {
-  width: min(100%, 148px);
+  width: min(100%, 220px);
   aspect-ratio: 10 / 15;
   padding: 0;
   border-radius: 18px;
@@ -122,6 +122,6 @@
 
   .home-footer-image-frame {
     width: 100%;
-    max-width: 148px;
+    max-width: 220px;
   }
 }
