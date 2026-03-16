@@ -72,9 +72,13 @@ function Home() {
     const previousHtmlOverflow = document.documentElement.style.overflow;
     document.body.style.overflow = "hidden";
     document.documentElement.style.overflow = "hidden";
+    document.body.classList.add("home-scroll-lock");
+    document.documentElement.classList.add("home-scroll-lock");
     return () => {
       document.body.style.overflow = previousBodyOverflow;
       document.documentElement.style.overflow = previousHtmlOverflow;
+      document.body.classList.remove("home-scroll-lock");
+      document.documentElement.classList.remove("home-scroll-lock");
     };
   }, []);
 
